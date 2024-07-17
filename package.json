@@ -175,10 +175,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thcuda/TestAutomation.git"
+    "url": "git+https://github.com/EEL-DataSystems/TestAutomation.git"
   },
   "bugs": {
-    "url": "https://github.com/thcuda/TestAutomation.git"
+    "url": "https://github.com/EEL-DataSystems/TestAutomation.git"
   },
-  "homepage": "https://github.com/thcuda/TestAutomation#readme"
+  "homepage": "https://github.com/EEL-DataSystems/TestAutomation#readme"
 }
