@@ -23,3 +23,23 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('login', (email, password) => {
+    cy.visit(Cypress.env('URL'), { failOnStatusCode: false });
+
+    console.log('Logging in with:', email);
+
+    cy.get('#email', { timeout: 10000 }).should('be.visible').type(email);
+
+    // Type password after #email is typed
+    cy.get('#password').should('be.visible').type(password);
+
+    // Click login button after #password is typed
+    cy.get('.button--primary').should('be.visible').click();
+
+    cy.url().then(url => {
+        console.log('Current URL after login:', url);
+    });
+
+    cy.url({ timeout: 50000 }).should('include', '/admin/shipments?page=1');
+});

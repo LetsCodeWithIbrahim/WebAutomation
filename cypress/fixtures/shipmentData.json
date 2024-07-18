@@ -1,0 +1,19 @@
+{
+  "shipmentStatus": "Under Review",
+  "forwarder": "Demo Forwarder",
+  "forwarderReferenceNumber": "DemoRef_001",
+  "forwarderPRONumber": "1122334455",
+  "forwardermawb": "0001",
+  "contactOption": "createNew",
+  "shipperInformation": {
+    "locationName": "StoneRidgeDr",
+    "addressLine1": "759 S Fraser St",
+    "city": "Aurora",
+    "state": "CO",
+    "zip": "80012",
+    "name": "Tamoor",
+    "phone": "+1345676545"
+  },
+  
+  "dropOption": "createNew"
+}
