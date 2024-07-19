@@ -1,9 +1,9 @@
 {
   "shipmentStatus": "Under Review",
-  "forwarder": "Demo Forwarder",
-  "forwarderReferenceNumber": "DemoRef_001",
-  "forwarderPRONumber": "1122334455",
-  "forwardermawb": "0001",
+  "forwarder": "360 LOGISTICS & TRANSPORTATION INC.",
+  "forwarderReferenceNumber": "Demo",
+  "forwarderPRONumber": "1122",
+  "forwardermawb": "3344",
   "contactOption": "createNew",
   "shipperInformation": {
     "locationName": "StoneRidgeDr",
@@ -13,7 +13,5 @@
     "zip": "80012",
     "name": "Tamoor",
     "phone": "+1345676545"
-  },
-  
-  "dropOption": "createNew"
+  }
 }
