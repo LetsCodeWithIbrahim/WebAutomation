@@ -16,3 +16,5 @@ or npx cypress install --force
 npx cypress run
 **For Running scripts on browser using Test Runner**
 npx cypress open
+**For Running mochawesome Reports**
+npm install cypress-mochawesome-reporter --save-dev

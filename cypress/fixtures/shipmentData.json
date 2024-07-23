@@ -1,10 +1,12 @@
 {
-  "shipmentStatus": "Under Review",
+  "pickupShipmentStatus": "Under Review",
+  "deliveryShipmentStatus": "Pending",
+  "directDeliveryShipmentStatus": "Pending",
   "forwarder": "360 LOGISTICS & TRANSPORTATION INC.",
-  "forwarderReferenceNumber": "Demo",
-  "forwarderPRONumber": "1122",
-  "forwardermawb": "3344",
+  "forwarderReferenceNumber": "Ref_00760",
+  "forwarderPRONumber": "1122334455",
   "contactOption": "createNew",
+  "RecoveryOption": "createNew",
   "shipperInformation": {
     "locationName": "StoneRidgeDr",
     "addressLine1": "759 S Fraser St",
@@ -13,5 +15,6 @@
     "zip": "80012",
     "name": "Tamoor",
     "phone": "+1345676545"
-  }
+  },
+  "filePath1": "C:/eeldatasystems/TestAutomation/cypress/uploadshipment/cuda.png"
 }

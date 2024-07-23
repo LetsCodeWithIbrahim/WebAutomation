@@ -1,0 +1,219 @@
+export class createShipment {
+
+    weblocators = {
+        newShipmentButton: 'a.button.button--primary',
+        shipmentType: 'label.toggle-label[for="pickup"]',
+        shipmentStatusDropdown: 'select.select[name="shipmentStatus"]',
+
+        //Shipment Forwarder Information
+        shipmentForwarderInput: 'input#shipmentForwarder',
+        forwarderReferenceNumberInput: 'input[name="shipmentReferenceNumber"][placeholder="Reference Number"]',
+        forwarderPRONumberInput: 'input[name="shipmentProNumber"][placeholder="PRO Number"]',
+        forwarderMawbInput: 'input[name="shipmentMawb"][placeholder="MAWB"]',
+
+        //Shipper & Drop Information Radio Buttons Web Locators
+        shipperInformationFieldset: 'fieldset.input-group.input-group--horizontal.fieldset input[type="radio"][name="shipper-information-new-or-existing-contact"][value="{buttonName}"]',
+        dropRadioFieldset: 'fieldset.input-group.input-group--horizontal.fieldset input[type="radio"][name="drop-information-new-or-existing-contact"][value="{buttonName}"',
+
+        //Shipper Information Web Locators
+        shipperInformationLocationNameInput: 'input[name="shipper-information-location-name"]',
+        shipperInformationAddressLine1Input: 'input[name="shipper-information-address-line-1"]',
+        shipperInformationCityInput: 'input[name="shipper-information-city"]',
+        shipperInformationStateInput: 'input[name="shipper-information-state"]',
+        shipperInformationZipInput: 'input[name="shipper-information-zip-code"]',
+
+        //Drop Information Web Locators
+        dropInformationLocationNameInput: 'input#drop-information-location-name.input',
+        dropInformationAddressLine1Input: 'input#drop-information-address-line-1',
+        dropInformationAddressLine2Input: 'input#drop-information-address-line-2',
+        dropInformationCityInput: 'input#drop-information-city',
+        dropInformationStateInput: 'input#drop-information-state',
+        dropInformationZipInput: 'input#drop-information-zip-code',
+        readyDateInput: 'input#ui-date-time-input-ready-date.input.ui-date-time-input',
+
+        //Provider Information Web Locators
+        providerReadyDateInput: 'input#ui-date-time-input-ready-date.input.ui-date-time-input',
+        providerReadyTimeInput: 'input#ui-date-time-input-ready-time.input.ui-date-time-input',
+        providerRadioFieldSet: 'div.range-radio input[type="radio"][name="shipmentExpectedDeliveryRange"][value="{buttonName}"]',
+        providerPickupDateInput: 'input#ui-date-time-input-pickup-date',
+        providerPickUpTimeInput: 'input#ui-date-time-input-pickup-time',
+        providerDropDateInput: 'input#ui-date-time-input-drop-date',
+        providerDropTimeInput: 'input#ui-date-time-input-drop-time',
+
+        //Freight Items Web Locators
+        freightPiecesInput1: 'input.input[name="shipmentFreightPieces"]',
+        freightTypeDropDown: 'select.select[name="shipmentFreightType"]',
+        addFreightItemButton: 'button.button--default.shipment-edit-view__add-frieght-line-button',
+        deleteFreightItemButton: 'button.button--default.delete-freight-button',
+        createShipmentButton: 'button.button--primary[type="submit"]',
+
+        //Shipment Attachment web locator
+        uploadShipmentAttachment: 'input#shipmentAttachment[type="file"]',
+
+        //Shipment Accessorials web Locator
+        shipmentAccessorialsViewMoreButton: 'button.button--default.see-more-button',
+        toggleSwitch: 'input.toggleSwitch[name="{buttonName}"]',
+
+        //CudaID Web Locator on success
+        cudaIdSpan: '.generic-modal-inner .shipment-notification a.shipment-link span',
+        searchRecordByCudaIDInput: 'input[type="text"][placeholder*="CUDA ID"]',
+        ellipsisButton: 'button.button.button--icon',
+        deleteShipmentButton: 'button[title="Delete Shipment"]'
+
+    }
+
+    randomAlphaNumericNumberGenerator(length) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
+    }
+
+    //No need to navigate to shipments as default dashboard screen after login is shipments
+
+    clickCreateShipment() {
+        cy.get(this.weblocators.newShipmentButton).should('be.visible').click({ force: true }); // Use {force: true} cautiously, only if necessary
+    }
+
+    clickShipmentType() {
+        cy.get(this.weblocators.shipmentType).click();
+    }
+
+    selectShipmentStatus(status) {
+        cy.get(this.weblocators.shipmentStatusDropdown).select(status);
+    }
+
+    enterForwarderDetails(forwarder, forwarderPRONumber) {
+
+        // Use {force: true} to type into a disabled input otherwise we explicitly need to click that field to make it enabled
+        cy.get(this.weblocators.shipmentForwarderInput).wait(5000).should('be.visible').type(forwarder);
+        cy.get(this.weblocators.forwarderReferenceNumberInput).type(this.randomAlphaNumericNumberGenerator(8));
+        cy.get(this.weblocators.forwarderPRONumberInput).type(forwarderPRONumber);
+        cy.get(this.weblocators.forwarderMawbInput).should('be.visible').clear({ force: true }).type(this.randomAlphaNumericNumberGenerator(5));
+    }
+
+    handleShipperContactOption(contactOption) {
+        if (contactOption === 'createNew') {
+            cy.get(this.weblocators.shipperInformationFieldset.replace('{buttonName}', 'false')).should('not.be.checked').check();
+        } else if (contactOption === 'useExisting') {
+            cy.get(this.weblocators.shipperInformationFieldset.replace('{buttonName}', 'true')).click();
+        } else {
+            throw new Error(`Invalid contact option specified: ${contactOption}`);
+        }
+    }
+
+    handleDropContactOption(dropOption) {
+        if (dropOption === 'createNew') {
+            cy.get(this.weblocators.dropRadioFieldset.replace('{buttonName}', 'false')).should('not.be.checked').check();
+        } else if (dropOption === 'useExisting') {
+            cy.get(this.weblocators.dropRadioFieldset.replace('{buttonName}', 'true')).click();
+        } else {
+            throw new Error(`Invalid drop option specified: ${dropOption}`);
+        }
+    }
+
+    enterShipperInformation(locName, addressLine1, city, state, zip) {
+        cy.get(this.weblocators.shipperInformationLocationNameInput).type(locName);
+        cy.get(this.weblocators.shipperInformationAddressLine1Input).type(addressLine1);
+        cy.get(this.weblocators.shipperInformationCityInput).type(city);
+        cy.get(this.weblocators.shipperInformationStateInput).type(state);
+        cy.get(this.weblocators.shipperInformationZipInput).type(zip);
+
+    }
+
+    enterDropInformation(dropLocName, dropAddressLine1, dropAddressLine2, city, state, zip) {
+        cy.get(this.weblocators.dropInformationLocationNameInput).type(dropLocName);
+        cy.get(this.weblocators.dropInformationAddressLine1Input).type(dropAddressLine1);
+        cy.get(this.weblocators.dropInformationAddressLine2Input).type(dropAddressLine2);
+        cy.get(this.weblocators.dropInformationCityInput).type(city);
+        cy.get(this.weblocators.dropInformationStateInput).type(state);
+        cy.get(this.weblocators.dropInformationZipInput).type(zip);
+
+    }
+
+    enterProviderInformation(readyDate, readyTime, pickUpDate, pickUpTime, dropDate, dropTime) {
+        cy.get(this.weblocators.providerReadyDateInput).type(readyDate);
+        cy.get(this.weblocators.providerReadyTimeInput).type(readyTime);
+        cy.get(this.weblocators.providerPickupDateInput).type(pickUpDate);
+        cy.get(this.weblocators.providerPickUpTimeInput).type(pickUpTime);
+        cy.get(this.weblocators.providerDropDateInput).type(dropDate);
+        cy.get(this.weblocators.providerDropTimeInput).type(dropTime);
+
+    }
+
+    handleProviderOption(providerOption) {
+        if (!(providerOption === 'AT' || providerOption === 'BY' || providerOption === 'BETWEEN')) {
+            throw new Error(`Invalid providerOption specified: ${providerOption}. Must be 'AT', 'BY', or 'BETWEEN'.`);
+        }
+        cy.get(this.weblocators.providerRadioFieldSet.replace('{buttonName}', providerOption)).should('not.be.checked').check();
+    }
+
+    enterFreightInformation(freightPieces, freightType) {
+
+        cy.get(this.weblocators.freightPiecesInput1).type(freightPieces);
+        cy.get(this.weblocators.freightTypeDropDown).select(freightType);
+        cy.wait(1000);
+        cy.get(this.weblocators.addFreightItemButton).click();
+        cy.get(this.weblocators.deleteFreightItemButton).click();
+        cy.wait(1000);
+    }
+
+    handleToggleButtons(toggleButtonsSet) {
+        cy.get(this.weblocators.shipmentAccessorialsViewMoreButton).click();
+        toggleButtonsSet.forEach(buttonName => {
+            cy.get(this.weblocators.toggleSwitch.replace('{buttonName}', buttonName)).should('not.be.checked').check();
+        });
+    }
+
+    untoggleCheckbox(untoggleButtonsSet) {
+        untoggleButtonsSet.forEach(buttonName => {
+            cy.get(this.weblocators.toggleSwitch.replace('{buttonName}', buttonName)).should('be.checked').uncheck();
+        });
+    }
+
+    uploadShipmentAttachment(filePath1) {
+        cy.get(this.weblocators.uploadShipmentAttachment).selectFile(filePath1, { force: true });
+        cy.wait(6000);
+        cy.get(this.weblocators.createShipmentButton).click();
+        cy.wait(10000);
+    }
+
+    fetchAndStoreCudaID() {
+        cy.get(this.weblocators.cudaIdSpan, { timeout: 30000 }).should('be.visible').invoke('text').then(text => {
+            const cudaId = text.replace('Cuda ID:', '').trim();
+            cy.wrap(cudaId).as('cudaId');
+        });
+    }
+
+    searchRecordByCudaID() {
+        cy.get('@cudaId').then(cudaId => {
+            cy.visit(Cypress.env('shipment_baseURL'), { failOnStatusCode: false }).wait(10000);
+            cy.get(this.weblocators.searchRecordByCudaIDInput).should('be.visible').type(cudaId);
+        });
+    }
+
+    clickOnEllipsisButtonAtIndex(index) {
+        cy.get(this.weblocators.ellipsisButton).eq(index).click();
+    }
+
+    clickOnDeleteShipment(){
+        cy.get(this.weblocators.deleteShipmentButton).click();
+        cy.wait(5000);
+    }
+
+    verifyShipmentPopup() {
+        cy.wait(30000); 
+        // Assert that the shipment notification popup exists
+        cy.get('.shipment-notification').should('exist');    
+        // Assert that the title of the shipment notification is correct
+        cy.get('.shipment-notification h1').should('contain.text', "Here's your new shipment!");
+      }
+}
+
+
+
+
+
+
