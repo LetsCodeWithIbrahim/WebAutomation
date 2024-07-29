@@ -8,7 +8,8 @@ module.exports = defineConfig({
     },
     env: {
       URL: 'https://dev.cudacartagetms.com/log-in',
-      shipment_baseURL: 'https://dev.cudacartagetms.com/admin/shipments?page=1'
+      shipment_baseURL: 'https://dev.cudacartagetms.com/admin/shipments?page=1',
+      routeToQuote: 'https://dev.cudacartagetms.com/admin/quotes'
     },
     reporter: 'cypress-mochawesome-reporter', // Specify the reporter
     reporterOptions: {
