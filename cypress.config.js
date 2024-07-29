@@ -2,7 +2,7 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   e2e: {
-    experimentalRunAllSpecs:true,
+    experimentalRunAllSpecs:true,// This tag is added so user can run all scripts through UI using one click
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
