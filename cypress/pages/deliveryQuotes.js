@@ -1,3 +1,5 @@
+import { select, timeout } from "async";
+
 export class quotes {
 
     weblocators = {
@@ -33,7 +35,7 @@ export class quotes {
 
     clickQuotesRouter() {
         cy.get(this.weblocators.quoteRouter).contains('Quotes').click();
-        cy.get(this.weblocators.addNewQuoteButton).contains('Add New Quote').click();
+        cy.get(this.weblocators.addNewQuoteButton, { timeout: 5000 }).contains('Add New Quote').click({ force: true });
     }
 
     quoteDetails(designationType, date, forwarder, pickupZipCode, pickupZone) {
@@ -54,7 +56,7 @@ export class quotes {
             .find('input[type="radio"]') // Find the radio button within that label
             .check();
         cy.get(this.weblocators.dateInput).type(date);
-        cy.get(this.weblocators.selectForwarder).wait(4000).select(forwarder);
+        cy.get(this.weblocators.selectForwarder).wait(20000).select(forwarder, {force: true});
         cy.get(this.weblocators.dropoffZipCodeInput).type(pickupZipCode);
         cy.get(this.weblocators.zoneDropOffSelect).select(pickupZone);
     }

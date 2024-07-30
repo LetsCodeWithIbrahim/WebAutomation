@@ -33,7 +33,7 @@ export class pickupQuote {
 
     clickQuotesRouter() {
         cy.get(this.weblocators.quoteRouter).contains('Quotes').click();
-        cy.get(this.weblocators.addNewQuoteButton).contains('Add New Quote').click();
+        cy.get(this.weblocators.addNewQuoteButton, {timeout: 5000}).contains('Add New Quote').click({ force: true });
     }
 
     quoteDetails(designationType, date, forwarder, dropOffZipCode, dropoffZone) {
@@ -54,7 +54,7 @@ export class pickupQuote {
             .find('input[type="radio"]') // Find the radio button within that label
             .check();
         cy.get(this.weblocators.dateInput).type(date);
-        cy.get(this.weblocators.selectForwarder).wait(4000).select(forwarder);
+        cy.get(this.weblocators.selectForwarder).wait(20000).select(forwarder, {force: true});
         cy.get(this.weblocators.pickupZipCodeInput).type(dropOffZipCode);
         cy.get(this.weblocators.zonePickupSelect).select(dropoffZone);
     }

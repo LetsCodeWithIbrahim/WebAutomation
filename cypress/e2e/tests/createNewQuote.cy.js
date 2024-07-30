@@ -15,9 +15,8 @@ describe('Create Quote Tests', () => {
     });
 
     it('Should create a new quote with type Delivery', () => {
+        quoteObj.clickQuotesRouter();
 
-        pickupQuoteObj.clickQuotesRouter();
-        
         quoteObj.quoteDetails(
             quoteData.deliveryQuote.designationType,
             quoteData.deliveryQuote.date,
