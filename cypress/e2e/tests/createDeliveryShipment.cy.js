@@ -32,19 +32,17 @@ describe('Shipment Tests', () => {
             shipmentData.forwarderPRONumber);
 
         shipmentObj.handleRecoveryContactOption(
-            shipmentData.RecoveryOption);
-
-        shipmentObj.handleConsigneeContactOption(
-            consigneeData.consigneeOption);
-
-        shipmentObj.enterRecoveryInformation(
+            shipmentData.recoveryOption,
+            shipmentData.recoverySearchName,
             shipmentData.shipperInformation.locationName,
             shipmentData.shipperInformation.addressLine1,
             shipmentData.shipperInformation.city,
             shipmentData.shipperInformation.state,
             shipmentData.shipperInformation.zip);
 
-        shipmentObj.enterConsigneeformation(
+        shipmentObj.handleconsigneeContactOption(
+            consigneeData.consigneeOption, 
+            consigneeData.consigneeInformation.searchName,
             consigneeData.consigneeInformation.locationName,
             consigneeData.consigneeInformation.addressLine1,
             consigneeData.consigneeInformation.addressLine2,

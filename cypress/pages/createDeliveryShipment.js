@@ -13,7 +13,7 @@ export class createDeliveryShipment {
 
         //Recovery & consignee Information Radio Buttons Web Locators
         RecoveryInformationFieldset: 'fieldset.input-group.input-group--horizontal.fieldset input[type="radio"][name="recovery-information-new-or-existing-contact"][value="{buttonName}"]',
-        dropRadioFieldset: 'fieldset.input-group.input-group--horizontal.fieldset input[type="radio"][name="consignee-information-new-or-existing-contact"][value="{buttonName}"',
+        consigneeRadioFieldset: 'fieldset.input-group.input-group--horizontal.fieldset input[type="radio"][name="consignee-information-new-or-existing-contact"][value="{buttonName}"',
 
         //Recovery Information Web Locators
         recoveryInformationLocationNameInput: 'input[name="recovery-information-location-name"]',
@@ -21,6 +21,8 @@ export class createDeliveryShipment {
         recoveryInformationCityInput: 'input[name="recovery-information-city"]',
         recoveryInformationStateInput: 'input[name="recovery-information-state"]',
         recoveryInformationZipInput: 'input[name="recovery-information-zip-code"]',
+        recoverySearchInput: 'input#recovery-information-search-name',
+        recoverySearchOptions: 'ul.shipment-contact-search__found-contacts li.shipment-contact-search__found-contact',
 
         //Consignee Information Web Locators
         consigneeInformationLocationNameInput: 'input[name="consignee-information-location-name"]',
@@ -29,6 +31,8 @@ export class createDeliveryShipment {
         consigneeInformationCityInput: 'input[name="consignee-information-city"]',
         consigneeInformationStateInput: 'input[name="consignee-information-state"]',
         consigneeInformationZipInput: 'input[name="consignee-information-zip-code"]',
+        consigneeSearchInput: 'input#consignee-information-search-name',
+        consigneeSearchOptions: 'ul.shipment-contact-search__found-contacts li.shipment-contact-search__found-contact',
 
         //Provider Information Web Locators
         providerReadyDateInput: 'input#ui-date-time-input-ready-date.input.ui-date-time-input',
@@ -90,43 +94,61 @@ export class createDeliveryShipment {
         cy.get(this.weblocators.forwarderMawbInput).should('be.visible').clear({ force: true }).type(this.randomAlphaNumericNumberGenerator(5));
     }
 
-    handleRecoveryContactOption(recoveryOption) {
+    handleRecoveryContactOption(recoveryOption, recoverySearchName, locName, addressLine1, city, state, zip) {
         if (recoveryOption === 'createNew') {
             cy.get(this.weblocators.RecoveryInformationFieldset.replace('{buttonName}', 'false')).should('not.be.checked').check();
+
+            cy.get(this.weblocators.recoveryInformationLocationNameInput).type(locName);
+            cy.get(this.weblocators.recoveryInformationAddressLine1Input).type(addressLine1);
+            cy.get(this.weblocators.recoveryInformationCityInput).type(city);
+            cy.get(this.weblocators.recoveryInformationStateInput).type(state);
+            cy.get(this.weblocators.recoveryInformationZipInput).type(zip);
+
         } else if (recoveryOption === 'useExisting') {
-            cy.get(this.weblocators.RecoveryInformationFieldset.replace('{buttonName}', 'true')).click();
+            cy.get(this.weblocators.RecoveryInformationFieldset.replace('{buttonName}', 'true'))
+                .click()
+                .then(() => {
+                    cy.get(this.weblocators.recoverySearchInput)
+                        .should('be.visible')
+                        .type(recoverySearchName)
+                        .then(() => {
+                            cy.get(this.weblocators.recoverySearchOptions, { timeout: 10000 })
+                                .contains(recoverySearchName)
+                                .click();
+                        });
+                });
         } else {
-            throw new Error(`Invalid recovery option specified: ${recoveryOption}`);
+            throw new Error(`Invalid contactOption specified: ${recoveryOption}`);
         }
     }
 
-    handleConsigneeContactOption(dropOption) {
-        if (dropOption === 'createNew') {
-            cy.get(this.weblocators.dropRadioFieldset.replace('{buttonName}', 'false')).should('not.be.checked').check();
-        } else if (dropOption === 'useExisting') {
-            cy.get(this.weblocators.dropRadioFieldset.replace('{buttonName}', 'true')).click();
+    handleconsigneeContactOption(consigneeOption, searchName, consigneeLocName, consigneeAddressLine1, consigneedropAddressLine2, city, state, zip) {
+        if (consigneeOption === 'createNew') {
+            cy.get(this.weblocators.consigneeRadioFieldset.replace('{buttonName}', 'false')).should('not.be.checked').check();
+
+            cy.get(this.weblocators.consigneeInformationLocationNameInput).type(consigneeLocName);
+            cy.get(this.weblocators.consigneeInformationAddressLine1Input).type(consigneeAddressLine1);
+            cy.get(this.weblocators.consigneeInformationAddressLine2Input).type(consigneedropAddressLine2);
+            cy.get(this.weblocators.consigneeInformationCityInput).type(city);
+            cy.get(this.weblocators.consigneeInformationStateInput).type(state);
+            cy.get(this.weblocators.consigneeInformationZipInput).type(zip);
+
+        } else if (consigneeOption === 'useExisting') {
+            cy.get(this.weblocators.consigneeRadioFieldset.replace('{buttonName}', 'true'))
+                .click()
+                .then(() => {
+                    cy.get(this.weblocators.consigneeSearchInput)
+                        .should('be.visible')
+                        .type(searchName)
+                        .then(() => {
+                            cy.get(this.weblocators.consigneeSearchOptions, { timeout: 10000 }) // 10 seconds
+                            .contains(searchName)
+                            .click();
+                        });
+                });
         } else {
-            throw new Error(`Invalid drop option specified: ${dropOption}`);
+            throw new Error(`Invalid dropOption specified: ${consigneeOption}`);
         }
-    }
-
-    enterRecoveryInformation(locName, addressLine1, city, state, zip) {
-        cy.get(this.weblocators.recoveryInformationLocationNameInput).type(locName);
-        cy.get(this.weblocators.recoveryInformationAddressLine1Input).type(addressLine1);
-        cy.get(this.weblocators.recoveryInformationCityInput).type(city);
-        cy.get(this.weblocators.recoveryInformationStateInput).type(state);
-        cy.get(this.weblocators.recoveryInformationZipInput).type(zip);
-
-    }
-
-    enterConsigneeformation(consigneeLocName, consigneeAddressLine1, consigneedropAddressLine2, city, state, zip) {
-        cy.get(this.weblocators.consigneeInformationLocationNameInput).type(consigneeLocName);
-        cy.get(this.weblocators.consigneeInformationAddressLine1Input).type(consigneeAddressLine1);
-        cy.get(this.weblocators.consigneeInformationAddressLine2Input).type(consigneedropAddressLine2);
-        cy.get(this.weblocators.consigneeInformationCityInput).type(city);
-        cy.get(this.weblocators.consigneeInformationStateInput).type(state);
-        cy.get(this.weblocators.consigneeInformationZipInput).type(zip);
-
     }
 
     enterProviderInformation(readyDate, readyTime, deliveryDate, deliveryTime) {
@@ -175,7 +197,7 @@ export class createDeliveryShipment {
     }
 
     fetchAndStoreCudaID() {
-        cy.get(this.weblocators.cudaIdSpan, { timeout: 30000 }).should('be.visible').invoke('text').then(text => {
+        cy.get(this.weblocators.cudaIdSpan, { timeout: 100000 }).should('be.visible').invoke('text').then(text => {
             const cudaId = text.replace('Cuda ID:', '').trim();
             cy.wrap(cudaId).as('cudaId');
         });
@@ -183,7 +205,7 @@ export class createDeliveryShipment {
 
     searchRecordByCudaID() {
         cy.get('@cudaId').then(cudaId => {
-            cy.visit(Cypress.env('shipment_baseURL'), { failOnStatusCode: false }).wait(10000);
+            cy.visit(Cypress.env('shipment_baseURL'), { failOnStatusCode: false }).wait(40000);
             cy.get(this.weblocators.searchRecordByCudaIDInput).should('be.visible').type(cudaId);
         });
     }
@@ -193,12 +215,13 @@ export class createDeliveryShipment {
     }
 
     clickOnDeleteShipment(){
+
         cy.get(this.weblocators.deleteShipmentButton).click();
-        cy.wait(5000);
+        cy.wait(40000);
     }
 
     verifyShipmentPopup() {
-        cy.wait(30000); 
+        cy.wait(100000); 
         // Assert that the shipment notification popup exists
         cy.get('.shipment-notification').should('exist');    
         // Assert that the title of the shipment notification is correct

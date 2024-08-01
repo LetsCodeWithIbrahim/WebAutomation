@@ -5,8 +5,9 @@
   "forwarder": "360 LOGISTICS & TRANSPORTATION INC.",
   "forwarderReferenceNumber": "Ref_00760",
   "forwarderPRONumber": "1122334455",
-  "contactOption": "createNew",
-  "RecoveryOption": "createNew",
+  "contactOption": "useExisting",
+  "recoveryOption": "useExisting",
+  "recoverySearchName": "FORWARD AIR",
   "shipperInformation": {
     "locationName": "StoneRidgeDr",
     "addressLine1": "759 S Fraser St",
@@ -14,7 +15,8 @@
     "state": "CO",
     "zip": "80012",
     "name": "Tamoor",
-    "phone": "+1345676545"
+    "phone": "+1345676545",
+    "searchName": "FORWARD AIR"
   },
-  "filePath1": "D:\\TestAutomation\\cypress\\uploadshipment\\cuda.png"
+  "filePath1": "C:\\eeldatasystems\\TestAutomation\\cypress\\uploadshipment\\cuda.png"
 }

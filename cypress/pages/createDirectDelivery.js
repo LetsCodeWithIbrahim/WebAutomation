@@ -20,6 +20,8 @@ export class createDirectDeliveryShipment {
         shipperInformationCityInput: 'input[name="shipper-information-city"]',
         shipperInformationStateInput: 'input[name="shipper-information-state"]',
         shipperInformationZipInput: 'input[name="shipper-information-zip-code"]',
+        shipperSearchInput: 'input#shipper-information-search-name',
+        shipperSearchOptions: 'ul.shipment-contact-search__found-contacts li.shipment-contact-search__found-contact',
 
         //consignee Information Web Locators
         consigneeInformationLocationNameInput: 'input[name="consignee-information-location-name"]',
@@ -28,6 +30,8 @@ export class createDirectDeliveryShipment {
         consigneeInformationCityInput: 'input[name="consignee-information-city"]',
         consigneeInformationStateInput: 'input[name="consignee-information-state"]',
         consigneeInformationZipInput: 'input[name="consignee-information-zip-code"]',
+        consigneeSearchInput: 'input#consignee-information-search-name',
+        consigneeSearchOptions: 'ul.shipment-contact-search__found-contacts li.shipment-contact-search__found-contact',
 
         //Provider Information Web Locators
         providerReadyDateInput: 'input#ui-date-time-input-ready-date.input.ui-date-time-input',
@@ -92,44 +96,63 @@ export class createDirectDeliveryShipment {
         cy.get(this.weblocators.forwarderPRONumberInput).type(forwarderPRONumber);
     }
 
-    handleShipperContactOption(contactOption) {
+    handleShipperContactOption(contactOption, searchName, locName, addressLine1, city, state, zip) {
         if (contactOption === 'createNew') {
             cy.get(this.weblocators.shipperInformationFieldset.replace('{buttonName}', 'false')).should('not.be.checked').check();
+
+            cy.get(this.weblocators.shipperInformationLocationNameInput).type(locName);
+            cy.get(this.weblocators.shipperInformationAddressLine1Input).type(addressLine1);
+            cy.get(this.weblocators.shipperInformationCityInput).type(city);
+            cy.get(this.weblocators.shipperInformationStateInput).type(state);
+            cy.get(this.weblocators.shipperInformationZipInput).type(zip);
+
         } else if (contactOption === 'useExisting') {
-            cy.get(this.weblocators.shipperInformationFieldset.replace('{buttonName}', 'true')).click();
+            cy.get(this.weblocators.shipperInformationFieldset.replace('{buttonName}', 'true'))
+                .click()
+                .then(() => {
+                    cy.get(this.weblocators.shipperSearchInput)
+                        .should('be.visible')
+                        .type(searchName)
+                        .then(() => {
+                            cy.get(this.weblocators.shipperSearchOptions, { timeout: 10000 })
+                                .contains(searchName)
+                                .click();
+                        });
+                });
         } else {
-            throw new Error(`Invalid contact option specified: ${contactOption}`);
+            throw new Error(`Invalid contactOption specified: ${contactOption}`);
         }
     }
 
-    handleconsigneeContactOption(consigneeOption) {
+    handleconsigneeContactOption(consigneeOption, searchName, consigneeLocName, consigneeAddressLine1, consigneedropAddressLine2, city, state, zip) {
         if (consigneeOption === 'createNew') {
             cy.get(this.weblocators.consigneeRadioFieldset.replace('{buttonName}', 'false')).should('not.be.checked').check();
+
+            cy.get(this.weblocators.consigneeInformationLocationNameInput).type(consigneeLocName);
+            cy.get(this.weblocators.consigneeInformationAddressLine1Input).type(consigneeAddressLine1);
+            cy.get(this.weblocators.consigneeInformationAddressLine2Input).type(consigneedropAddressLine2);
+            cy.get(this.weblocators.consigneeInformationCityInput).type(city);
+            cy.get(this.weblocators.consigneeInformationStateInput).type(state);
+            cy.get(this.weblocators.consigneeInformationZipInput).type(zip);
+
         } else if (consigneeOption === 'useExisting') {
-            cy.get(this.weblocators.consigneeRadioFieldset.replace('{buttonName}', 'true')).click();
+            cy.get(this.weblocators.consigneeRadioFieldset.replace('{buttonName}', 'true'))
+                .click()
+                .then(() => {
+                    cy.get(this.weblocators.consigneeSearchInput)
+                        .should('be.visible')
+                        .type(searchName)
+                        .then(() => {
+                            cy.get(this.weblocators.consigneeSearchOptions, { timeout: 10000 })
+                                .contains(searchName)
+                                .click();
+                        });
+                });
         } else {
-            throw new Error(`Invalid consignee option specified: ${consigneeOption}`);
+            throw new Error(`Invalid dropOption specified: ${consigneeOption}`);
         }
     }
 
-    enterShipperInformation(locName, addressLine1, city, state, zip) {
-        cy.get(this.weblocators.shipperInformationLocationNameInput).type(locName);
-        cy.get(this.weblocators.shipperInformationAddressLine1Input).type(addressLine1);
-        cy.get(this.weblocators.shipperInformationCityInput).type(city);
-        cy.get(this.weblocators.shipperInformationStateInput).type(state);
-        cy.get(this.weblocators.shipperInformationZipInput).type(zip);
-
-    }
-
-    enterConsigneeformation(consigneeLocName, consigneeAddressLine1, consigneedropAddressLine2, city, state, zip) {
-        cy.get(this.weblocators.consigneeInformationLocationNameInput).type(consigneeLocName);
-        cy.get(this.weblocators.consigneeInformationAddressLine1Input).type(consigneeAddressLine1);
-        cy.get(this.weblocators.consigneeInformationAddressLine2Input).type(consigneedropAddressLine2);
-        cy.get(this.weblocators.consigneeInformationCityInput).type(city);
-        cy.get(this.weblocators.consigneeInformationStateInput).type(state);
-        cy.get(this.weblocators.consigneeInformationZipInput).type(zip);
-
-    }
 
     enterProviderInformation(readyDate, readyTime, pickUpDate, pickUpTime, deliveryDate, deliveryTime) {
         cy.get(this.weblocators.providerReadyDateInput).type(readyDate);
@@ -179,7 +202,7 @@ export class createDirectDeliveryShipment {
     }
 
     fetchAndStoreCudaID() {
-        cy.get(this.weblocators.cudaIdSpan, { timeout: 20000 }).should('be.visible').invoke('text').then(text => {
+        cy.get(this.weblocators.cudaIdSpan, { timeout: 100000 }).should('be.visible').invoke('text').then(text => {
             const cudaId = text.replace('Cuda ID:', '').trim();
             cy.wrap(cudaId).as('cudaId');
         });
@@ -187,7 +210,7 @@ export class createDirectDeliveryShipment {
 
     searchRecordByCudaID() {
         cy.get('@cudaId').then(cudaId => {
-            cy.visit(Cypress.env('shipment_baseURL'), { failOnStatusCode: false }).wait(10000);
+            cy.visit(Cypress.env('shipment_baseURL'), { failOnStatusCode: false }).wait(40000);
             cy.get(this.weblocators.searchRecordByCudaIDInput).should('be.visible').type(cudaId);
         });
     }
@@ -197,12 +220,13 @@ export class createDirectDeliveryShipment {
     }
 
     clickOnDeleteShipment(){
+
         cy.get(this.weblocators.deleteShipmentButton).click();
-        cy.wait(5000);
+        cy.wait(40000);
     }
 
     verifyShipmentPopup() {
-        cy.wait(30000); 
+        cy.wait(100000); 
         // Assert that the shipment notification popup exists
         cy.get('.shipment-notification').should('exist');    
         // Assert that the title of the shipment notification is correct

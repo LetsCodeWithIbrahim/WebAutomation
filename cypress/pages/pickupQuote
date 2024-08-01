@@ -33,7 +33,7 @@ export class pickupQuote {
 
     clickQuotesRouter() {
         cy.get(this.weblocators.quoteRouter).contains('Quotes').click();
-        cy.get(this.weblocators.addNewQuoteButton, {timeout: 5000}).contains('Add New Quote').click({ force: true });
+        cy.get(this.weblocators.addNewQuoteButton).contains('Add New Quote').click({ force: true });
     }
 
     quoteDetails(designationType, date, forwarder, dropOffZipCode, dropoffZone) {

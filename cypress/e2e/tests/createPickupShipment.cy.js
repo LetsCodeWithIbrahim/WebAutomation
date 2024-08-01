@@ -14,7 +14,7 @@ describe('Shipment Tests', () => {
     before(() => {
         cy.login(loginData.email, loginData.password);
     });
-    
+
     it('should create a new shipment', () => {
         //No need to navigate to shipment page as default page is shipment page after login
 
@@ -32,19 +32,17 @@ describe('Shipment Tests', () => {
             shipmentData.forwarderPRONumber);
 
         shipmentObj.handleShipperContactOption(
-            shipmentData.contactOption);
-
-        shipmentObj.handleDropContactOption(
-            dropInformationData.dropOption);
-
-        shipmentObj.enterShipperInformation(
+            shipmentData.contactOption,
+            shipmentData.shipperInformation.searchName,
             shipmentData.shipperInformation.locationName,
             shipmentData.shipperInformation.addressLine1,
             shipmentData.shipperInformation.city,
             shipmentData.shipperInformation.state,
             shipmentData.shipperInformation.zip);
 
-        shipmentObj.enterDropInformation(
+        shipmentObj.handleDropContactOption(
+            dropInformationData.dropOption,
+            dropInformationData.dropInformation.searchName,
             dropInformationData.dropInformation.locationName,
             dropInformationData.dropInformation.addressLine1,
             dropInformationData.dropInformation.addressLine2,

@@ -14,7 +14,7 @@ describe('Create Quote Tests', () => {
         cy.login(loginData.email, loginData.password);
     });
 
-    it('Should create a new quote with type Delivery', () => {
+    it('Should create a new quote with type Delivery', { tags: ['Delivery'] }, () => {
         quoteObj.clickQuotesRouter();
 
         quoteObj.quoteDetails(
@@ -38,7 +38,7 @@ describe('Create Quote Tests', () => {
         //quoteObj.searchQuoteByRefNo();
     });
 
-    it('Should create a new quote with type Pickup', () => {
+    it('Should create a new quote with type Pickup', { tags: ['Pickup'] }, () => {
         pickupQuoteObj.clickQuotesRouter();
 
         pickupQuoteObj.quoteDetails(
@@ -62,7 +62,7 @@ describe('Create Quote Tests', () => {
         //pickupQuoteObj.searchQuoteByRefNo();
     });
 
-    it('Should create a new quote with type Direct Delivery', () => {
+    it('Should create a new quote with type Direct Delivery', { tags: ['DirectDelivery'] }, () => {
         directDeliveryQuoteObj.clickQuotesRouter();
 
         directDeliveryQuoteObj.quoteDetails(
