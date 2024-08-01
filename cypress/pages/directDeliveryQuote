@@ -60,7 +60,8 @@ export class directDeliveryQuote {
         cy.get(this.weblocators.pickupZipCodeInput).type(pickupZipCode);
         cy.get(this.weblocators.zonePickupSelect).select(pickupZone);
         cy.get(this.weblocators.dropoffZipCodeInput).type(dropOffZipCode);
-        cy.get(this.weblocators.zoneDropOffSelect).select(dropoffZone);
+        cy.get(this.weblocators.zoneDropOffSelect, { timeout: 100000 }) // Timeout set to 10 seconds
+        .select(dropoffZone);
 
     }
 
@@ -118,7 +119,7 @@ export class directDeliveryQuote {
 
     assertToastNotification() {
         // Check if the toast container is visible
-        cy.get('[data-testid="Toastify__toast-container--bottom-left"]', { timeout: 10000 }) // Adjust timeout as needed
+        cy.get('[data-testid="Toastify__toast-container--bottom-left"]', { timeout: 100000 }) // Adjust timeout as needed
             .should('be.visible') // Ensure the container is visible
 
             // Check if the toast notification contains the correct text

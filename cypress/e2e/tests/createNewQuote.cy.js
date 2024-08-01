@@ -11,6 +11,10 @@ const directDeliveryQuoteObj = new directDeliveryQuote()
 describe('Create Quote Tests', () => {
 
     beforeEach(() => {
+        cy.clearLocalStorage();
+        //cy.clearSessionStorage();
+        cy.clearCookies();
+        cy.reload({ forceReload: true }); // For a full reload from the server
         cy.login(loginData.email, loginData.password);
     });
 

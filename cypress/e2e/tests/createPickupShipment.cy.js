@@ -12,6 +12,10 @@ const shipmentObj = new createShipment();
 describe('Shipment Tests', () => {
 
     before(() => {
+        cy.clearLocalStorage();
+        cy.clearCookies();
+        cy.reload({ forceReload: true }); // For a full reload from the server
+        cy.login(loginData.email, loginData.password);
         cy.login(loginData.email, loginData.password);
     });
 

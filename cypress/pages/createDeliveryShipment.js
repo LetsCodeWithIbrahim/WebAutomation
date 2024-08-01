@@ -217,7 +217,7 @@ export class createDeliveryShipment {
     clickOnDeleteShipment(){
 
         cy.get(this.weblocators.deleteShipmentButton).click();
-        cy.wait(40000);
+        cy.wait(10000);
     }
 
     verifyShipmentPopup() {

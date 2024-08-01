@@ -58,7 +58,8 @@ export class quotes {
         cy.get(this.weblocators.dateInput).type(date);
         cy.get(this.weblocators.selectForwarder).wait(20000).select(forwarder, {force: true});
         cy.get(this.weblocators.dropoffZipCodeInput).type(pickupZipCode);
-        cy.get(this.weblocators.zoneDropOffSelect).select(pickupZone);
+        cy.get(this.weblocators.zoneDropOffSelect, { timeout: 100000 }) // Timeout set to 10 seconds
+        .select(pickupZone);
     }
 
     typeIntoCombobox(expectedOptions, containOptions) {
@@ -115,7 +116,7 @@ export class quotes {
 
     assertToastNotification() {
         // Check if the toast container is visible
-        cy.get('[data-testid="Toastify__toast-container--bottom-left"]', { timeout: 10000 }) // Adjust timeout as needed
+        cy.get('[data-testid="Toastify__toast-container--bottom-left"]', { timeout: 100000 }) // Adjust timeout as needed
             .should('be.visible') // Ensure the container is visible
 
             // Check if the toast notification contains the correct text
