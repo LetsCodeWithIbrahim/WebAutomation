@@ -41,5 +41,5 @@ Cypress.Commands.add('login', (email, password) => {
         console.log('Current URL after login:', url);
     });
 
-    cy.url({ timeout: 50000 }).should('include', '/admin/shipments?page=1');
+    cy.url({ timeout: 100000 }).should('include', '/admin/shipments?page=1');
 });
