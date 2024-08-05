@@ -89,10 +89,10 @@ export class createShipment {
     }
 
     enterForwarderDetails(forwarder, forwarderPRONumber) {
-        cy.get(this.weblocators.shipmentForwarderInput).wait(6000).should('be.visible').type(forwarder);
         cy.get(this.weblocators.forwarderReferenceNumberInput).type(this.randomAlphaNumericNumberGenerator(8));
         cy.get(this.weblocators.forwarderPRONumberInput).type(forwarderPRONumber);
         cy.get(this.weblocators.forwarderMawbInput).clear({ force: true }).type(this.randomAlphaNumericNumberGenerator(5));
+        cy.get(this.weblocators.shipmentForwarderInput).wait(6000).should('be.visible').type(forwarder);
     }
 
     handleShipperContactOption(contactOption, searchName, locName, addressLine1, city, state, zip) {

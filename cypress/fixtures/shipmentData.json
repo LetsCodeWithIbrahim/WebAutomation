@@ -18,5 +18,27 @@
     "phone": "+1345676545",
     "searchName": "FORWARD AIR"
   },
-  "filePath1": "C:\\eeldatasystems\\TestAutomation\\cypress\\uploadshipment\\cuda.png"
+  "filePath1": "C:\\eeldatasystems\\TestAutomation\\cypress\\uploadshipment\\cuda.png",
+  "shipmentCostingChargeCode": [
+    "IN",
+    "IN",
+    "IN",
+    "IN",
+    "IN"
+  ],
+  "shipmentChargeDescription": [
+    "Demo Cost",
+    "Demo Cost 1",
+    "Demo Cost 2",
+    "Demo Cost 3",
+    "Demo Cost 4"
+  ],
+  "shipmentCost": [
+    5.00,
+    6.00,
+    7.00,
+    8.00,
+    9.00
+  ]
+
 }

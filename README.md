@@ -18,3 +18,5 @@ npx cypress run
 npx cypress open
 **For Running mochawesome Reports**
 npm install cypress-mochawesome-reporter --save-dev
+**For Installing Cypress Grep**
+npm install --save-dev cypress-grep --force
