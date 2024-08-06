@@ -5,9 +5,11 @@ import consigneeData from "../../fixtures/consigneeData.json";
 import providerDetailsData from "../../fixtures/providerDetailsData.json";
 import freightDetailsData from "../../fixtures/freightItemData.json";
 import accessorialData from "../../fixtures/accessorialData.json";
+import { createDeliveryShipment } from "../../pages/createDeliveryShipment";
 
 
-const shipmentObj = new editShipmentCost();
+const shipmentObj = new createDeliveryShipment();
+const shipmentCost = new editShipmentCost();
 
 describe('Shipment Tests', () => {
 
@@ -76,8 +78,8 @@ describe('Shipment Tests', () => {
 
         shipmentObj.fetchAndStoreCudaID();
         shipmentObj.searchRecordByCudaID();
-        shipmentObj.clickOnshipmentCostingButton(0);
-        shipmentObj.addChargesAndVerify(
+        shipmentCost.clickOnshipmentCostingButton(0);
+        shipmentCost.addChargesAndVerify(
             shipmentData.shipmentCostingChargeCode,
             shipmentData.shipmentChargeDescription,
             shipmentData.shipmentCost);
