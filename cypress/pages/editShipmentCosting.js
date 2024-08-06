@@ -226,7 +226,8 @@ export class editShipmentCost {
     }
 
     addChargesAndVerify(chargeCodes, descriptions, costs) {
-        cy.get(this.weblocators.totalChargeAmount, {timeout: 100000}).should('be.visible').invoke('text').then(totalChargeText => {
+        cy.wait(20000);
+        cy.get(this.weblocators.totalChargeAmount).should('be.visible').invoke('text').then(totalChargeText => {
             const totalChargeAmount = totalChargeText.replace(/[^\d.-]/g, '').trim();
             const initialAmount = parseFloat(totalChargeAmount);
             cy.wrap(initialAmount).as('initialAmount');
@@ -263,7 +264,10 @@ export class editShipmentCost {
             const expectedFinalAmount = initialAmount + totalCostSum;
 
             cy.get('@finalChargeAmount').should('exist').then(finalChargeAmount => {
-                expect(finalChargeAmount).to.be.closeTo(expectedFinalAmount, 0.01); // Allowing a small tolerance for floating-point comparison
+                // Ensure the finalChargeAmount is a number
+                cy.log(expectedFinalAmount);
+                const finalChargeAmountValue = parseFloat(finalChargeAmount);
+                expect(finalChargeAmountValue).to.eq(expectedFinalAmount);
             });
         });
 
