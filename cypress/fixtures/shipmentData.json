@@ -8,6 +8,7 @@
   "contactOption": "useExisting",
   "recoveryOption": "useExisting",
   "recoverySearchName": "FORWARD AIR",
+  "newDescription": "New Demo Cost",
   "shipperInformation": {
     "locationName": "StoneRidgeDr",
     "addressLine1": "759 S Fraser St",
