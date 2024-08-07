@@ -14,7 +14,9 @@ export class editShipmentCost {
         deleteChargeButton: 'button[title="Delete Charge"]',
         chargeList: 'table.shipment-costing__list tbody',
         editChargeButton: 'button[title="Edit Cost"]',
-        saveButton: 'button[title="Save"]'
+        saveButton: 'button[title="Save"]',
+        addAttachmentLabel: 'label[for="attachment"]',
+        fileInput: 'input[type="file"]'
     }
 
     clickOnshipmentCostingButton(index) {
@@ -109,8 +111,23 @@ export class editShipmentCost {
         .find('tr.charge-list-item') // Verify the remaining charge items
         .should('have.length.lessThan', 8); // Ensure there are fewer items than the index + 1
         }
-}
 
+        uploadFile(filePath) {
+            // Click on the label to trigger the file input
+            cy.get(this.weblocators.addAttachmentLabel).click();
+    
+            // Attach the file using the file input
+            cy.get(this.weblocators.fileInput).then(subject => {
+                cy.wrap(subject).selectFile(filePath, { force: true });
+                cy.get('[data-testid="Toastify__toast-container--bottom-left"]', { timeout: 100000 }) // Adjust timeout as needed
+                .should('be.visible') // Ensure the container is visible
+    
+                // Check if the toast notification contains the correct text
+                .find('[data-testid="toast-content"]')
+                .should('contain.text', 'Attachment was added.');
+            });
+        }
+}
 
 
 

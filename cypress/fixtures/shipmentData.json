@@ -19,7 +19,8 @@
     "phone": "+1345676545",
     "searchName": "FORWARD AIR"
   },
-  "filePath1": "C:\\eeldatasystems\\TestAutomation\\cypress\\uploadshipment\\cuda.png",
+  "costingfilepath": "cypress/uploadshipment/CudaPdf.pdf",
+  "filePath1": "cypress/uploadshipment/cuda.png",
   "shipmentCostingChargeCode": [
     "IN",
     "IN",
