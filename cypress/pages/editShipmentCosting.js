@@ -9,7 +9,9 @@ export class editShipmentCost {
         chargeCodeSelectionButton: 'select#charge-code',
         chargeDetailsInput: 'input#new-charge-details',
         totalChargeAmount: '.shipment-costing__charge-total--amount',
-        amountInput: 'input[id^="ui-currency-"][type="number"]'
+        amountInput: 'input[id^="ui-currency-"][type="number"]',
+        deleteChargeButton: 'button[title="Delete Charge"]',
+        chargeList: 'table.shipment-costing__list tbody'
     }
 
     clickOnshipmentCostingButton(index) {
@@ -61,8 +63,22 @@ export class editShipmentCost {
                 expect(finalChargeAmountValue).to.eq(expectedFinalAmount);
             });
         });
-
     }
+    deleteSpecificCharge(index) {
+        cy.wait(20000);
+        cy.get(this.weblocators.chargeList)
+          .find('tr.charge-list-item') // Select all charge list items
+          .eq(index) // Choose the item at the specified index
+          .find(this.weblocators.deleteChargeButton) // Find the delete button within the selected item
+          .click(); // Click the delete button
+
+        // Retry mechanism to verify the charge list length
+        cy.wait(20000); // Wait for the UI to update after deletion
+
+        cy.get(this.weblocators.chargeList)
+        .find('tr.charge-list-item') // Verify the remaining charge items
+        .should('have.length.lessThan', 8); // Ensure there are fewer items than the index + 1
+        }
 }
 
 

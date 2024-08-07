@@ -83,5 +83,6 @@ describe('Shipment Tests', () => {
             shipmentData.shipmentCostingChargeCode,
             shipmentData.shipmentChargeDescription,
             shipmentData.shipmentCost);
+        shipmentCost.deleteSpecificCharge(4);
     });
 });
