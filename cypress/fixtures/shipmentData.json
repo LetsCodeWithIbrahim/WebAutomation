@@ -36,29 +36,12 @@
     "Demo Cost for TMAN"
   ],
   "shipmentCost": [
-<<<<<<< HEAD
-    5.00,
-    6.00,
-    7.00,
-    8.00,
-    9.00
-  ],
-  "driverNames": [
-    "Adam Driver",
-    "Driver Bee",
-    "Caryn Driver",
-    "John Doe",
-    "Apple Test"
-  ],
-  "podName": "John Smith",
-  "refineSearchOption": "Under Review"
-=======
     10.00,
     15.00,
     20.00,
     30.00,
     40.00
-  ]
-
->>>>>>> dd65e320aec5fde328cc019df7b1c156ebd82ca7
+  ],
+  "podName": "John Smith",
+  "refineSearchOption": "Under Review"
 }
