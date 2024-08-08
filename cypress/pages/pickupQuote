@@ -36,7 +36,7 @@ export class pickupQuote {
         cy.get(this.weblocators.addNewQuoteButton).contains('Add New Quote').click({ force: true });
     }
 
-    quoteDetails(designationType, date, forwarder, dropOffZipCode, dropoffZone) {
+    quoteDetails(designationType, date, forwarder, pickupZipCode, pickupZone) {
         const validDesignationTypes = ['Pickup'];
         if (!validDesignationTypes.includes(designationType)) {
             throw new Error(`Invalid designationType specified: ${designationType}.`);
@@ -55,8 +55,8 @@ export class pickupQuote {
             .check();
         cy.get(this.weblocators.dateInput).type(date);
         cy.get(this.weblocators.selectForwarder).wait(20000).select(forwarder, {force: true});
-        cy.get(this.weblocators.pickupZipCodeInput).type(dropOffZipCode);
-        cy.get(this.weblocators.zoneDropOffSelect).select(dropoffZone);
+        cy.get(this.weblocators.pickupZipCodeInput).type(pickupZipCode);
+        cy.get(this.weblocators.zonePickupSelect).select(pickupZone);
     }
 
     typeIntoCombobox(expectedOptions, containOptions) {
