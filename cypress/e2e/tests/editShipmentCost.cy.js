@@ -83,8 +83,12 @@ describe('Shipment Tests', () => {
             shipmentData.shipmentCostingChargeCode,
             shipmentData.shipmentChargeDescription,
             shipmentData.shipmentCost);
+
         shipmentCost.editSpecificCharge(5, shipmentData.newDescription);
         shipmentCost.deleteSpecificCharge(4);
         shipmentCost.uploadFile(shipmentData.costingfilepath);
+        shipmentCost.editInfoAndApprove(
+            shipmentData.podName,
+            shipmentData.refineSearchOption);
     });
 });

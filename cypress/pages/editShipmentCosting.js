@@ -5,18 +5,27 @@ export class editShipmentCost {
     weblocators = {
         //Shipment Costing Button
         shipmentCostingButton: 'a[title="Shipment Costing"]',
-        addChargeButton: 'button.button.button--primary',
+        primaryButton: 'button.button.button--primary',
         chargeCodeSelectionButton: 'select#charge-code',
         chargeDetailsInput: 'input#new-charge-details',
         updatechargeDetailsInput: 'span.charge-list-item__input input.input',
         totalChargeAmount: '.shipment-costing__charge-total--amount',
         amountInput: 'input[id^="ui-currency-"][type="number"]',
+        customerChargeListItems: '.charge-list-item',
+        comboboxToggleButton: '.combobox--toggle',
+        comboboxOptions: '.combobox--options',
+        comboboxInput: '.combobox--input',
         deleteChargeButton: 'button[title="Delete Charge"]',
         chargeList: 'table.shipment-costing__list tbody',
         editChargeButton: 'button[title="Edit Cost"]',
         saveButton: 'button[title="Save"]',
         addAttachmentLabel: 'label[for="attachment"]',
-        fileInput: 'input[type="file"]'
+        fileInput: 'input[type="file"]',
+        defaultButton: 'button.button.button--default',
+        podNameInput: 'input#pod-name.input',
+        approveChargesButton: 'button.button--select.button.button--primary',
+        pillButtons: 'button.pill--button',
+        searchRecordByCudaIDInput: 'input[type="text"][placeholder*="CUDA ID"]'
     }
 
     clickOnshipmentCostingButton(index) {
@@ -43,11 +52,11 @@ export class editShipmentCost {
             const description = descriptions[i];
             const cost = costs[i];
 
-            cy.get(this.weblocators.addChargeButton, {timeout: 100000}).should('not.be.disabled').contains('Add Charge').click();
+            cy.get(this.weblocators.primaryButton, { timeout: 100000 }).should('not.be.disabled').contains('Add Charge').click({ force: true });
             cy.get(this.weblocators.chargeCodeSelectionButton).select(chargeCode);
             cy.get(this.weblocators.chargeDetailsInput).type(description);
             cy.get(this.weblocators.amountInput).clear().type(cost.toString());
-            cy.get(this.weblocators.addChargeButton).contains(' Save ').click();
+            cy.get(this.weblocators.primaryButton).contains(' Save ').click();
             cy.wait(5000);
         };
 
@@ -69,67 +78,80 @@ export class editShipmentCost {
             });
         });
     }
-    
+
     editSpecificCharge(index, newDescription) {
         cy.wait(20000);
-        // Click the edit button for the specific charge
         cy.get(this.weblocators.chargeList)
-          .find('tr.charge-list-item') // Select all charge list items
-          .eq(index) // Choose the item at the specified index
-          .find(this.weblocators.editChargeButton) // Find the edit button within the selected item
-          .click(); // Click the edit button
+            .find('tr.charge-list-item') 
+            .eq(index)
+            .find(this.weblocators.editChargeButton) 
+            .click();
 
-        // Update the charge details
-        cy.get(this.weblocators.updatechargeDetailsInput, {timeout: 10000}).clear().type(newDescription);
+        cy.get(this.weblocators.updatechargeDetailsInput, { timeout: 10000 }).clear().type(newDescription);
         cy.get(this.weblocators.saveButton).click();
 
-        // Verify the updated charge
-        cy.wait(20000); // Wait for the UI to update
+        cy.wait(20000);
 
         cy.get(this.weblocators.chargeList)
-        .find('tr') // Select all rows
-        .eq(index) // Choose the row at the specified index
-        .within(() => {
-          cy.get('td') // Verify the cells in the row
-            .contains(newDescription) // Check if the description cell contains the new description
-            .should('exist'); // Assertion to confirm existence
-          });
-        }
+            .find('tr') 
+            .eq(index) 
+            .within(() => {
+                cy.get('td') 
+                    .contains(newDescription)
+                    .should('exist');
+            });
+    }
 
     deleteSpecificCharge(index) {
         cy.wait(20000);
         cy.get(this.weblocators.chargeList)
-          .find('tr.charge-list-item') // Select all charge list items
-          .eq(index) // Choose the item at the specified index
-          .find(this.weblocators.deleteChargeButton) // Find the delete button within the selected item
-          .click(); // Click the delete button
+            .find('tr.charge-list-item') 
+            .eq(index) 
+            .find(this.weblocators.deleteChargeButton) 
+            .click(); 
 
-        // Retry mechanism to verify the charge list length
-        cy.wait(20000); // Wait for the UI to update after deletion
+        
+        cy.wait(20000); 
 
         cy.get(this.weblocators.chargeList)
-        .find('tr.charge-list-item') // Verify the remaining charge items
-        .should('have.length.lessThan', 8); // Ensure there are fewer items than the index + 1
-        }
+            .find('tr.charge-list-item') 
+            .should('have.length.lessThan', 8); 
+    }
 
-        uploadFile(filePath) {
-            // Click on the label to trigger the file input
-            cy.get(this.weblocators.addAttachmentLabel).click();
-    
-            // Attach the file using the file input
-            cy.get(this.weblocators.fileInput).then(subject => {
-                cy.wrap(subject).selectFile(filePath, { force: true });
-                cy.get('[data-testid="Toastify__toast-container--bottom-left"]', { timeout: 100000 }) // Adjust timeout as needed
-                .should('be.visible') // Ensure the container is visible
-    
-                // Check if the toast notification contains the correct text
+    uploadFile(filePath) {
+        cy.get(this.weblocators.addAttachmentLabel).click();
+
+        cy.get(this.weblocators.fileInput).then(subject => {
+            cy.wrap(subject).selectFile(filePath, { force: true });
+            cy.get('[data-testid="Toastify__toast-container--bottom-left"]', { timeout: 100000 }) 
+                .should('be.visible') 
                 .find('[data-testid="toast-content"]')
                 .should('contain.text', 'Attachment was added.');
+        });
+    }
+
+    editInfoAndApprove(podName, refineSearchOption) {
+        cy.wait(4000);
+        cy.get(this.weblocators.defaultButton).contains(' Edit Info ').click({ force: true });
+        cy.get(this.weblocators.podNameInput).should('be.visible').type(podName);
+        cy.get(this.weblocators.primaryButton).contains(' Save Info ').click();
+        cy.wait(12000);
+        cy.get(this.weblocators.defaultButton).contains(' Approve Shipment Charges ').click({ force: true });
+        cy.get(this.weblocators.approveChargesButton).contains(' Approve Charges ').click({ force: true });
+        cy.wait(25000);
+        cy.get(this.weblocators.pillButtons).contains(refineSearchOption).click();
+        cy.wait(7000);
+
+        cy.get('@cudaId').then(cudaId => {
+            cy.get(this.weblocators.searchRecordByCudaIDInput).should('be.visible').type(cudaId, { force: true });
+            cy.wait(5000);
+
+            cy.get('tr.shipment-list-item').should('exist').within(() => {
+                cy.get('td').eq(1).find('span').contains(cudaId).should('exist');
             });
-        }
+        });
+    }
 }
-
-
 
 
 
