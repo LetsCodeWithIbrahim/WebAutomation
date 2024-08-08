@@ -22,20 +22,21 @@
   "costingfilepath": "cypress/uploadshipment/CudaPdf.pdf",
   "filePath1": "cypress/uploadshipment/cuda.png",
   "shipmentCostingChargeCode": [
+    "ATMPTDL",
     "IN",
-    "IN",
-    "IN",
-    "IN",
-    "IN"
+    "DISP",
+    "DROP",
+    "FUEL"
   ],
   "shipmentChargeDescription": [
-    "Demo Cost",
-    "Demo Cost 1",
-    "Demo Cost 2",
-    "Demo Cost 3",
-    "Demo Cost 4"
+    "Demo Cost for ATMPTDL",
+    "Demo Cost for IN",
+    "Demo Cost for DISP",
+    "Demo Cost for DROP",
+    "Demo Cost for TMAN"
   ],
   "shipmentCost": [
+<<<<<<< HEAD
     5.00,
     6.00,
     7.00,
@@ -51,4 +52,13 @@
   ],
   "podName": "John Smith",
   "refineSearchOption": "Under Review"
+=======
+    10.00,
+    15.00,
+    20.00,
+    30.00,
+    40.00
+  ]
+
+>>>>>>> dd65e320aec5fde328cc019df7b1c156ebd82ca7
 }
