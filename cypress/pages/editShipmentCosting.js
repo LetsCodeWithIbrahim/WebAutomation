@@ -18,6 +18,7 @@ export class editShipmentCost {
         deleteChargeButton: 'button[title="Delete Charge"]',
         chargeList: 'table.shipment-costing__list tbody',
         editChargeButton: 'button[title="Edit Cost"]',
+        unlockChargeButton: 'button[title="Unlock Charge"]',
         saveButton: 'button[title="Save"]',
         addAttachmentLabel: 'label[for="attachment"]',
         fileInput: 'input[type="file"]',
@@ -25,7 +26,9 @@ export class editShipmentCost {
         podNameInput: 'input#pod-name.input',
         approveChargesButton: 'button.button--select.button.button--primary',
         pillButtons: 'button.pill--button',
-        searchRecordByCudaIDInput: 'input[type="text"][placeholder*="CUDA ID"]'
+        searchRecordByCudaIDInput: 'input[type="text"][placeholder*="CUDA ID"]',
+        pullFromUnderReviewButton: 'button[title="Pull From Under Review"]',
+        ellipsisButton: 'button.button.button--icon'
     }
 
     clickOnshipmentCostingButton(index) {
@@ -129,11 +132,11 @@ export class editShipmentCost {
                 .should('contain.text', 'Attachment was added.');
         });
     }
-
+    
     editInfoAndApprove(podName, refineSearchOption) {
         cy.wait(4000);
         cy.get(this.weblocators.defaultButton).contains(' Edit Info ').click({ force: true });
-        cy.get(this.weblocators.podNameInput).should('be.visible').type(podName);
+        cy.get(this.weblocators.podNameInput).scrollIntoView().should('be.visible').type(podName);
         cy.get(this.weblocators.primaryButton).contains(' Save Info ').click();
         cy.wait(12000);
         cy.get(this.weblocators.defaultButton).contains(' Approve Shipment Charges ').click({ force: true });
@@ -151,7 +154,44 @@ export class editShipmentCost {
             });
         });
     }
+
+    unlockChargeAndRecalculate(newDescription) {
+        cy.wait(2000);
+        cy.get(this.weblocators.chargeList).find('tr.charge-list-item').contains(newDescription).parents('tr').then(row => {
+            cy.wrap(row).find('td').eq(4).find('span.charge-list-item__input').invoke('text').then(amountText => {
+                const amount = amountText.replace(/[^\d.-]/g, '').trim();
+                const amountNumber = parseFloat(amount);
+                cy.wrap(amountNumber).as('rowAmount');
+            });
+
+            cy.wrap(row).find(this.weblocators.unlockChargeButton).click();
+        });
+
+        cy.wait(2000);
+
+        cy.get(this.weblocators.defaultButton).contains(' Recalculate Tariff Charges ').click();
+        cy.wait(12000);
+        cy.reload();
+        cy.wait(15000);
+
+        cy.get(this.weblocators.totalChargeAmount).scrollIntoView().should('be.visible').invoke('text').then(totalChargeText => {
+            const totalChargeAmount = totalChargeText.replace(/[^\d.-]/g, '').trim();
+            const recalculatedAmount = parseFloat(totalChargeAmount);
+            cy.wrap(recalculatedAmount).as('recalculatedAmount');
+        });
+
+        cy.get('@rowAmount').then(rowAmount => {
+            cy.get('@finalChargeAmount').then(finalChargeAmount => {
+                const expectedFinalAmount = finalChargeAmount - rowAmount;
+
+                cy.get('@recalculatedAmount').then(recalculatedAmount => {
+                    // Assert that the recalculated amount is equal to the expected final amount
+                    expect(recalculatedAmount).to.eq(expectedFinalAmount);
+                });
+            });
+        });
+
+        cy.wait(5000);
+
+    }
 }
-
-
-

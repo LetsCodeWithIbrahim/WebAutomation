@@ -85,6 +85,7 @@ describe('Shipment Tests', () => {
             shipmentData.shipmentCost);
 
         shipmentCost.editSpecificCharge(5, shipmentData.newDescription);
+        shipmentCost.unlockChargeAndRecalculate(shipmentData.newDescription);
         shipmentCost.deleteSpecificCharge(4);
         shipmentCost.uploadFile(shipmentData.costingfilepath);
         shipmentCost.editInfoAndApprove(
