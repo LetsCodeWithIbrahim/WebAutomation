@@ -83,26 +83,29 @@ export class editShipmentCost {
     }
 
     editSpecificCharge(index, newDescription) {
-        cy.wait(20000);
-        cy.get(this.weblocators.chargeList)
-            .find('tr.charge-list-item') 
-            .eq(index)
-            .find(this.weblocators.editChargeButton) 
-            .click();
-
-        cy.get(this.weblocators.updatechargeDetailsInput, { timeout: 10000 }).clear().type(newDescription);
-        cy.get(this.weblocators.saveButton).click();
-
-        cy.wait(20000);
-
-        cy.get(this.weblocators.chargeList)
-            .find('tr') 
-            .eq(index) 
-            .within(() => {
-                cy.get('td') 
-                    .contains(newDescription)
-                    .should('exist');
-            });
+            // Refresh the page and wait for elements to load properly
+            cy.reload({ timeout: 20000 }); // Wait up to 10 seconds for the page to reload
+            cy.get(this.weblocators.chargeList, { timeout: 10000 })
+                .find('tr.charge-list-item') 
+                .eq(index)
+                .find(this.weblocators.editChargeButton)
+                .click();
+        
+            // Clear and type in the new description, then save
+            cy.get(this.weblocators.updatechargeDetailsInput, { timeout: 10000 })
+                .clear()
+                .type(newDescription);
+            cy.get(this.weblocators.saveButton).click();
+        
+            // Wait for the page or list to reload and reflect the changes
+            cy.get(this.weblocators.chargeList, { timeout: 10000 }) // Adjust timeout as needed
+                .find('tr') 
+                .eq(index)
+                .within(() => {
+                    cy.get('td', { timeout: 10000 }) // Wait for the cells to appear
+                        .contains(newDescription, { timeout: 10000 }) // Adjust timeout for content appearance
+                        .should('be.visible'); // Ensure the content is visible
+                });
     }
 
     deleteSpecificCharge(index) {
@@ -156,7 +159,7 @@ export class editShipmentCost {
     }
 
     unlockChargeAndRecalculate(newDescription) {
-        cy.wait(2000);
+        cy.wait(10000);
         cy.get(this.weblocators.chargeList).find('tr.charge-list-item').contains(newDescription).parents('tr').then(row => {
             cy.wrap(row).find('td').eq(4).find('span.charge-list-item__input').invoke('text').then(amountText => {
                 const amount = amountText.replace(/[^\d.-]/g, '').trim();
