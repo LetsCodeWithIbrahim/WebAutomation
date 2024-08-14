@@ -227,7 +227,7 @@ export class createDirectDeliveryShipment {
     }
 
     verifyShipmentPopup() {
-        cy.wait(100000); 
+        cy.wait(10000); 
         // Assert that the shipment notification popup exists
         cy.get('.shipment-notification').should('exist');    
         // Assert that the title of the shipment notification is correct

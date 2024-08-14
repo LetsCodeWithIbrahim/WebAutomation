@@ -86,12 +86,14 @@ export class createDeliveryShipment {
     }
 
     enterForwarderDetails(forwarder, forwarderPRONumber) {
-
+        const forwarderReferenceNumber = this.randomAlphaNumericNumberGenerator(8);
         // Use {force: true} to type into a disabled input otherwise we explicitly need to click that field to make it enabled 
-        cy.get(this.weblocators.shipmentForwarderInput).wait(5000).should('be.visible').type(forwarder);
-        cy.get(this.weblocators.forwarderReferenceNumberInput).type(this.randomAlphaNumericNumberGenerator(8));
+        cy.get(this.weblocators.forwarderReferenceNumberInput).type(forwarderReferenceNumber);
+        cy.wrap(forwarderReferenceNumber).as('forwarderReferenceNumber');
         cy.get(this.weblocators.forwarderPRONumberInput).type(forwarderPRONumber);
         cy.get(this.weblocators.forwarderMawbInput).should('be.visible').clear({ force: true }).type(this.randomAlphaNumericNumberGenerator(5));
+        cy.get(this.weblocators.shipmentForwarderInput).wait(5000).scrollIntoView().should('be.visible').type(forwarder);
+
     }
 
     handleRecoveryContactOption(recoveryOption, recoverySearchName, locName, addressLine1, city, state, zip) {
@@ -221,7 +223,7 @@ export class createDeliveryShipment {
     }
 
     verifyShipmentPopup() {
-        cy.wait(100000); 
+        cy.wait(10000); 
         // Assert that the shipment notification popup exists
         cy.get('.shipment-notification').should('exist');    
         // Assert that the title of the shipment notification is correct

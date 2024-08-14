@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2024-08-14T13:24:14.758Z",
+    "end": "2024-08-14T13:26:19.486Z",
+    "duration": 124728,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "15ddc5bd-55ef-41bf-b620-bc3fdd0b16ce",
+      "title": "",
+      "fullFile": "cypress\\e2e\\tests\\createDeliveryShipment.cy.js",
+      "file": "cypress\\e2e\\tests\\createDeliveryShipment.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "e44573d9-7bd5-480c-b403-0b97b8958c44",
+          "title": "Shipment Tests",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should create a new shipment with type delivery",
+              "fullTitle": "Shipment Tests Should create a new shipment with type delivery",
+              "timedOut": null,
+              "duration": 120512,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "//No need to navigate to shipment page as default page is shipment page after login\n//Click on the create shipment button\nshipmentObj.clickCreateShipment();\n//Click on shipment type\nshipmentObj.clickShipmentType();\nshipmentObj.selectShipmentStatus(_shipmentData.default.deliveryShipmentStatus);\nshipmentObj.enterForwarderDetails(_shipmentData.default.forwarder, _shipmentData.default.forwarderPRONumber);\nshipmentObj.handleRecoveryContactOption(_shipmentData.default.recoveryOption, _shipmentData.default.recoverySearchName, _shipmentData.default.shipperInformation.locationName, _shipmentData.default.shipperInformation.addressLine1, _shipmentData.default.shipperInformation.city, _shipmentData.default.shipperInformation.state, _shipmentData.default.shipperInformation.zip);\nshipmentObj.handleconsigneeContactOption(_consigneeData.default.consigneeOption, _consigneeData.default.consigneeInformation.searchName, _consigneeData.default.consigneeInformation.locationName, _consigneeData.default.consigneeInformation.addressLine1, _consigneeData.default.consigneeInformation.addressLine2, _consigneeData.default.consigneeInformation.city, _consigneeData.default.consigneeInformation.state, _consigneeData.default.consigneeInformation.zip);\nshipmentObj.enterProviderInformation(_providerDetailsData.default.readyDate, _providerDetailsData.default.readyTime, _providerDetailsData.default.deliveryDate, _providerDetailsData.default.deliveryTime);\nshipmentObj.handleProviderOption(_providerDetailsData.default.providerOption.toUpperCase());\nshipmentObj.enterFreightInformation(_freightItemData.default.freightPieces, _freightItemData.default.freightType);\nshipmentObj.handleToggleButtons(_accessorialData.default.toggleButtonsSet);\nshipmentObj.untoggleCheckbox(_accessorialData.default.untoggleButtonsSet);\nshipmentObj.uploadShipmentAttachment(_shipmentData.default.filePath1, _shipmentData.default.filePath2);\nshipmentObj.verifyShipmentPopup;\nshipmentObj.fetchAndStoreCudaID();\nshipmentObj.searchRecordByCudaID();\nshipmentObj.clickOnEllipsisButtonAtIndex(0);\nshipmentObj.clickOnDeleteShipment();",
+              "err": {},
+              "uuid": "6bdf97b1-38b5-475f-98ba-72a46b485e19",
+              "parentUUID": "e44573d9-7bd5-480c-b403-0b97b8958c44",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "6bdf97b1-38b5-475f-98ba-72a46b485e19"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 120512,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress\\reports\\mochawesome\\.jsons",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

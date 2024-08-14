@@ -220,7 +220,7 @@ export class createShipment {
     }
 
     verifyShipmentPopup() {
-        cy.wait(100000);
+        cy.wait(10000);
         cy.get('.shipment-notification').should('exist');
         cy.get('.shipment-notification h1').should('contain.text', "Here's your new shipment!");
     }
