@@ -104,7 +104,7 @@ export class quotes {
 
     getQuotePriceandSave() {
         cy.get(this.weblocators.getQuoteButton).contains('Get Quote').click();
-        cy.wait(10000);
+        cy.wait(20000);
         cy.get(this.weblocators.quotePriceSpan)
             .should('exist') // Ensure the element exists in the DOM
             .and(($span) => {

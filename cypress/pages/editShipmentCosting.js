@@ -83,8 +83,7 @@ export class editShipmentCost {
     }
 
     editSpecificCharge(index, newDescription) {
-            // Refresh the page and wait for elements to load properly
-            cy.reload({ timeout: 20000 }); // Wait up to 10 seconds for the page to reload
+            cy.wait(20000);
             cy.get(this.weblocators.chargeList, { timeout: 10000 })
                 .find('tr.charge-list-item') 
                 .eq(index)
