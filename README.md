@@ -20,3 +20,6 @@ npx cypress open
 npm install cypress-mochawesome-reporter --save-dev
 **For Installing Cypress Grep**
 npm install --save-dev cypress-grep --force
+**For Installing Drag n Drop Plugin**
+npm install cypress-drag-drop --save-dev --force
+npm install cypress-real-events --save-dev
