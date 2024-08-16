@@ -207,7 +207,7 @@ export class createDeliveryShipment {
 
     searchRecordByCudaID() {
         cy.get('@cudaId').then(cudaId => {
-            cy.visit(Cypress.env('shipment_baseURL'), { failOnStatusCode: false }).wait(40000);
+            cy.visit(Cypress.env('shipment_baseURL'), { failOnStatusCode: false }).wait(20000);
             cy.get(this.weblocators.searchRecordByCudaIDInput).should('be.visible').type(cudaId);
         });
     }

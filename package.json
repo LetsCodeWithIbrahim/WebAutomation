@@ -10,6 +10,7 @@
   "license": "ISC",
   "devDependencies": {
     "cypress": "^13.13.1",
+    "cypress-drag-drop": "^1.1.1",
     "cypress-grep": "^3.0.4",
     "cypress-mochawesome-reporter": "^3.8.2"
   },
@@ -52,6 +53,7 @@
     "common-tags": "^1.8.2",
     "core-util-is": "^1.0.2",
     "cross-spawn": "^7.0.3",
+    "cypress-real-events": "^1.13.0",
     "dashdash": "^1.14.1",
     "dayjs": "^1.11.11",
     "debug": "^4.3.5",

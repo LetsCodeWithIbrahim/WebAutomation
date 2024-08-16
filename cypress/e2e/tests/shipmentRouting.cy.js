@@ -58,8 +58,6 @@ describe('Shipment Tests', () => {
         shipmentObj.verifyShipmentPopup();
         shipmentObj.fetchAndStoreCudaID();
         shipmentObj.searchRecordByCudaID();
-        ShipmentRouting.searchRecordByRefNo();
-
-
+        ShipmentRouting.searchDragnDropRecordByRefNo();
     });
 });

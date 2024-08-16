@@ -33,17 +33,37 @@ export class shipmentRouting {
         });
     }
 
-
-    searchRecordByRefNo() {
+    searchDragnDropRecordByRefNo() {
         cy.get('@forwarderReferenceNumber').then(fwdRefNo => {
+            // Click the routing link and wait for the page to load
             cy.get(this.weblocators.routingLinkLocator).click().wait(10000);
             cy.get(this.weblocators.nakedButton).click();
+            
+            // Search for the reference number and wait for the results
             cy.get(this.weblocators.searchInputByReferenceNumber).scrollIntoView().should('be.visible').type(fwdRefNo);
             cy.wait(4000);
-            cy.get('tr.shipment-list-item').should('exist').within(() => {
-                cy.get('td').eq(1).find('span').contains(fwdRefNo).should('exist');
+    
+            // Check the checkbox for the relevant shipment
+            cy.get('tr.shipment-list-item').contains('td', fwdRefNo).parent('tr').find('input[type="checkbox"]').check({ force: true });
+    
+            // Click the "Add Route" button
+            cy.get('div.routing-details-footer').find('button').contains('Add Route').click();
+    
+            // Perform drag-and-drop
+            cy.get('tr.shipment-list-item.is-selected').first().then($source => {
+                cy.get('div.route-shipments').first().then($target => {
+                    const dataTransfer = new DataTransfer();
+                    cy.wrap($source).trigger('mousedown', { which: 1, button: 0, force: true });
+                    cy.wrap($source).trigger('dragstart', { dataTransfer, force: true });
+                    cy.wait(2000);
+                    cy.wrap($target).trigger('dragover', { dataTransfer, force: true });
+                    cy.wait(2000);
+                    cy.wrap($target).trigger('drop', { dataTransfer, force: true });
+                    cy.wait(2000);
+                    cy.get('div.route-shipments').find('div.routing-shipment-card').should('contain', fwdRefNo);
+
+                });
             });
         });
     }
-
 }
