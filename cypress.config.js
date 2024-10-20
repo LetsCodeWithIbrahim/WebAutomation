@@ -17,9 +17,9 @@ module.exports = defineConfig({
       return config;
     },
     env: {
-      URL: 'https://dev.cudacartagetms.com/log-in',
-      shipment_baseURL: 'https://dev.cudacartagetms.com/admin/shipments?page=1',
-      routeToQuote: 'https://dev.cudacartagetms.com/admin/quotes'
+      URL: 'https://www.google.co.uk/', //Modify the URL for Cypress to visit the appropriate website accordingly.
+      shipment_baseURL: 'https://www.google.co.uk/', //Adjust the website URL accordingly for assertions.
+      routeToQuote: 'https://www.google.co.uk/' //Adjust the website URL accordingly for assertions.
     },
     reporter: 'cypress-mochawesome-reporter', // Specify the reporter
     reporterOptions: {
