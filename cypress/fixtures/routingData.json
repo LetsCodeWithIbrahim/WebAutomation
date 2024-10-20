@@ -1,0 +1,19 @@
+{
+    "truckDriver01": "MyDriver One",
+    "shipments": [
+    {
+      "type": "PICKUP"
+    },
+    {
+      "type": "DROP"
+    }
+  ],
+  "dd_shipments":[
+    {
+      "type": "PICKUP"
+    },
+    {
+      "type": "DELIVERY"
+    }
+  ]
+}

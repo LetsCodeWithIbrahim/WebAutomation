@@ -55,7 +55,7 @@ export class createDeliveryShipment {
         shipmentAccessorialsViewMoreButton: 'button.button--default.see-more-button',
         toggleSwitch: 'input.toggleSwitch[name="{buttonName}"]',
 
-       //CudaID Web Locator on success
+        //CudaID Web Locator on success
         cudaIdSpan: '.generic-modal-inner .shipment-notification a.shipment-link span',
         searchRecordByCudaIDInput: 'input[type="text"][placeholder*="CUDA ID"]',
         ellipsisButton: 'button.button.button--icon',
@@ -144,8 +144,8 @@ export class createDeliveryShipment {
                         .type(searchName)
                         .then(() => {
                             cy.get(this.weblocators.consigneeSearchOptions, { timeout: 10000 }) // 10 seconds
-                            .contains(searchName)
-                            .click();
+                                .contains(searchName)
+                                .click();
                         });
                 });
         } else {
@@ -205,6 +205,15 @@ export class createDeliveryShipment {
         });
     }
 
+    storeAllData() {
+        cy.get('@cudaId').then(cudaId => {
+            cy.get('@forwarderReferenceNumber').then(forwardRefNumber => {
+                const data = { cudaId, forwardRefNumber };
+                cy.task('writeFile', { fileName: 'cypress/results/results.json', data });
+            });
+        });
+    }
+
     searchRecordByCudaID() {
         cy.get('@cudaId').then(cudaId => {
             cy.visit(Cypress.env('shipment_baseURL'), { failOnStatusCode: false }).wait(20000);
@@ -216,23 +225,17 @@ export class createDeliveryShipment {
         cy.get(this.weblocators.ellipsisButton).eq(index).click();
     }
 
-    clickOnDeleteShipment(){
+    clickOnDeleteShipment() {
 
         cy.get(this.weblocators.deleteShipmentButton).click();
         cy.wait(10000);
     }
 
     verifyShipmentPopup() {
-        cy.wait(10000); 
+        cy.wait(10000);
         // Assert that the shipment notification popup exists
-        cy.get('.shipment-notification').should('exist');    
+        cy.get('.shipment-notification').should('exist');
         // Assert that the title of the shipment notification is correct
         cy.get('.shipment-notification h1').should('contain.text', "Here's your new shipment!");
-      }
+    }
 }
-
-
-
-
-
-

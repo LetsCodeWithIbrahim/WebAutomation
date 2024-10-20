@@ -6,6 +6,7 @@ import consigneeData from "../../fixtures/consigneeData.json";
 import providerDetailsData from "../../fixtures/providerDetailsData.json"
 import freightDetailsData from "../../fixtures/freightItemData.json";
 import accessorialData from "../../fixtures/accessorialData.json";
+import routingData from "../../fixtures/routingData.json"
 
 const ShipmentRouting = new shipmentRouting();
 const shipmentObj = new createDeliveryShipment();
@@ -57,7 +58,9 @@ describe('Shipment Tests', () => {
             shipmentData.filePath2);
         shipmentObj.verifyShipmentPopup();
         shipmentObj.fetchAndStoreCudaID();
+        shipmentObj.storeAllData();
         shipmentObj.searchRecordByCudaID();
         ShipmentRouting.searchDragnDropRecordByRefNo();
+        ShipmentRouting.saveAndDispatchRoute(routingData.truckDriver01);
     });
 });

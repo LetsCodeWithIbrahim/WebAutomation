@@ -26,60 +26,102 @@
 import 'cypress-drag-drop';
 
 Cypress.Commands.add('login', (email, password) => {
-    cy.visit(Cypress.env('URL'), { failOnStatusCode: false });
+  cy.visit(Cypress.env('URL'), { failOnStatusCode: false });
 
-    console.log('Logging in with:', email);
+  console.log('Logging in with:', email);
 
-    cy.get('#email', { timeout: 10000 }).should('be.visible').type(email);
+  cy.get('#email', { timeout: 10000 }).should('be.visible').type(email);
 
-    // Type password after #email is typed
-    cy.get('#password').should('be.visible').type(password);
+  // Type password after #email is typed
+  cy.get('#password').should('be.visible').type(password);
 
-    // Click login button after #password is typed
-    cy.get('.button--primary').should('be.visible').click();
+  // Click login button after #password is typed
+  cy.get('.button--primary').should('be.visible').click();
 
-    cy.url().then(url => {
-        console.log('Current URL after login:', url);
-    });
+  cy.url().then(url => {
+    console.log('Current URL after login:', url);
+  });
 
-    cy.url({ timeout: 100000 }).should('include', '/admin/shipments?page=1');
+  cy.url({ timeout: 100000 }).should('include', '/admin/shipments?page=1');
 });
 
 Cypress.Commands.add('getCurrentDateTimeInMST', (offsetHours = 0) => {
-    const now = new Date();
-    
-    // Add the offset in hours to the current time
-    now.setHours(now.getHours() + offsetHours);
-  
-    // Define the time zone for MST
-    const optionsDate = {
-      timeZone: 'America/Denver', // MST time zone
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit'
-    };
-  
-    const optionsTime = {
-      timeZone: 'America/Denver',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false // 24-hour format
-    };
-  
-    // Get date and time in MST
-    const formatterDate = new Intl.DateTimeFormat('en-US', optionsDate);
-    const formatterTime = new Intl.DateTimeFormat('en-US', optionsTime);
-    
-    const dateTimeInMST = {
-      date: formatterDate.format(now),
-      time: formatterTime.format(now)
-    };
-  
-    // Format date and time as needed
-    const [month, day, year] = dateTimeInMST.date.split('/');
-    const formattedDate = `${year}-${month}-${day}`;
-    const formattedTime = dateTimeInMST.time; // Time in 24-hour format
-  
-    return { formattedDate, formattedTime };
-  });
+  const now = new Date();
+
+  // Add the offset in hours to the current time
+  now.setHours(now.getHours() + offsetHours);
+
+  // Define the time zone for MST
+  const optionsDate = {
+    timeZone: 'America/Denver', // MST time zone
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  };
+
+  const optionsTime = {
+    timeZone: 'America/Denver',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false // 24-hour format
+  };
+
+  // Get date and time in MST
+  const formatterDate = new Intl.DateTimeFormat('en-US', optionsDate);
+  const formatterTime = new Intl.DateTimeFormat('en-US', optionsTime);
+
+  const dateTimeInMST = {
+    date: formatterDate.format(now),
+    time: formatterTime.format(now)
+  };
+
+  // Format date and time as needed
+  const [month, day, year] = dateTimeInMST.date.split('/');
+  const formattedDate = `${year}-${month}-${day}`;
+  const formattedTime = dateTimeInMST.time; // Time in 24-hour format
+
+  return { formattedDate, formattedTime };
+});
+
+Cypress.Commands.add('getCurrentDateTimeInPKT', (offsetHours = 0, offsetDays = 0) => {
+  const now = new Date();
+
+  // Add offset days to the current date
+  now.setDate(now.getDate() + offsetDays);
+
+  // Add offset hours (converted to milliseconds) to the current time
+  now.setTime(now.getTime() + offsetHours * 60 * 60 * 1000);
+
+  // Define the time zone for PKT
+  const optionsDate = {
+    timeZone: 'Asia/Karachi', // PKT time zone
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  };
+
+  const optionsTime = {
+    timeZone: 'Asia/Karachi',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false // 24-hour format
+  };
+
+  // Get date and time in PKT
+  const formatterDate = new Intl.DateTimeFormat('en-US', optionsDate);
+  const formatterTime = new Intl.DateTimeFormat('en-US', optionsTime);
+
+  const dateTimeInPKT = {
+    date: formatterDate.format(now),
+    time: formatterTime.format(now)
+  };
+
+  // Format date and time as needed
+  const [month, day, year] = dateTimeInPKT.date.split('/');
+  const formattedDate = `${year}-${month}-${day}`;
+  const formattedTime = dateTimeInPKT.time; // Time in 24-hour format
+
+  return { formattedDate, formattedTime };
+});

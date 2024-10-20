@@ -4,12 +4,16 @@
   "description": "**Setup Pre-Reqs for Cypress**\r Install VS Code and Node Js Latest Version\r Create a new Repository and Clone it to your folder\r Open the folder in VS Code \r **Run the following commands in same order**\r npm init\r npm install cypress --save-dev\r **For Running scripts on Terminal inside VS Code**\r npx cypress run\r **For Running scripts on browser using Test Runner**\r npx cypress open",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress:test": "cypress run --headed --browser chrome --spec 'cypress/e2e/tests/createRoutingForAndroidApp.cy.js'",
+    "cypress:pickuptest": "cypress run --spec 'cypress/e2e/tests/createPickupDeliveryForAndroidApp.cy.js'",
+    "cypress:directdeliverytest": "cypress run --headed --browser chrome --spec 'cypress/e2e/tests/createDirectDeliveryRouteForAndroidApp.cy.js'"
+
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^13.13.1",
+    "cypress": "^13.14.2",
     "cypress-drag-drop": "^1.1.1",
     "cypress-grep": "^3.0.4",
     "cypress-mochawesome-reporter": "^3.8.2"

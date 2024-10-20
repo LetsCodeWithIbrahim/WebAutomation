@@ -89,11 +89,13 @@ export class createShipment {
     }
 
     enterForwarderDetails(forwarder, forwarderPRONumber) {
-        cy.get(this.weblocators.shipmentForwarderInput).wait(6000).should('be.visible').type(forwarder);
-        cy.get(this.weblocators.forwarderReferenceNumberInput).type(this.randomAlphaNumericNumberGenerator(8));
+        const forwarderReferenceNumber = this.randomAlphaNumericNumberGenerator(8);
+        // Use {force: true} to type into a disabled input otherwise we explicitly need to click that field to make it enabled 
+        cy.get(this.weblocators.forwarderReferenceNumberInput).type(forwarderReferenceNumber);
+        cy.wrap(forwarderReferenceNumber).as('forwarderReferenceNumber');
         cy.get(this.weblocators.forwarderPRONumberInput).type(forwarderPRONumber);
-        cy.get(this.weblocators.forwarderMawbInput).clear({ force: true }).type(this.randomAlphaNumericNumberGenerator(5));
-        
+        cy.get(this.weblocators.forwarderMawbInput).should('be.visible').clear({ force: true }).type(this.randomAlphaNumericNumberGenerator(5));
+        cy.get(this.weblocators.shipmentForwarderInput).wait(5000).scrollIntoView().should('be.visible').type(forwarder);
     }
 
     handleShipperContactOption(contactOption, searchName, locName, addressLine1, city, state, zip) {
@@ -200,6 +202,15 @@ export class createShipment {
         cy.get(this.weblocators.cudaIdSpan, { timeout: 100000 }).should('be.visible').invoke('text').then(text => {
             const cudaId = text.replace('Cuda ID:', '').trim();
             cy.wrap(cudaId).as('cudaId');
+        });
+    }
+
+    storeAllData() {
+        cy.get('@cudaId').then(cudaId => {
+            cy.get('@forwarderReferenceNumber').then(forwardRefNumber => {
+                const data = { cudaId, forwardRefNumber };
+                cy.task('writeFile', { fileName: 'cypress/results/results.json', data });
+            });
         });
     }
 

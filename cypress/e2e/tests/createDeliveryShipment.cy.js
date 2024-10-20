@@ -12,10 +12,6 @@ const shipmentObj = new createDeliveryShipment();
 describe('Shipment Tests', () => {
 
     before(() => {
-        cy.clearLocalStorage();
-        cy.clearCookies();
-        cy.reload({ forceReload: true }); // For a full reload from the server
-        cy.login(loginData.email, loginData.password);
         cy.login(loginData.email, loginData.password);
     });
 
@@ -45,7 +41,7 @@ describe('Shipment Tests', () => {
             shipmentData.shipperInformation.zip);
 
         shipmentObj.handleconsigneeContactOption(
-            consigneeData.consigneeOption, 
+            consigneeData.consigneeOption,
             consigneeData.consigneeInformation.searchName,
             consigneeData.consigneeInformation.locationName,
             consigneeData.consigneeInformation.addressLine1,
@@ -76,7 +72,7 @@ describe('Shipment Tests', () => {
         shipmentObj.uploadShipmentAttachment(
             shipmentData.filePath1,
             shipmentData.filePath2);
-        
+
         shipmentObj.verifyShipmentPopup
 
         shipmentObj.fetchAndStoreCudaID();

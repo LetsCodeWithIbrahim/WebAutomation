@@ -1,10 +1,20 @@
 const { defineConfig } = require("cypress");
+const fs = require('fs');
+const path = require('path');
+const { json } = require("stream/consumers");
 
 module.exports = defineConfig({
   e2e: {
     experimentalRunAllSpecs:true,// This tag is added so user can run all scripts through UI using one click
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      on('task', {
+        writeFile({ fileName, data}){
+          fs.writeFileSync(path.resolve(fileName), JSON.stringify(data, null, 2), 'utf-8');
+          return null;
+        }
+      });
+
+      return config;
     },
     env: {
       URL: 'https://dev.cudacartagetms.com/log-in',

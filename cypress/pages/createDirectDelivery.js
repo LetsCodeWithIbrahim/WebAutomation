@@ -89,12 +89,13 @@ export class createDirectDeliveryShipment {
     }
 
     enterForwarderDetails(forwarder, forwarderPRONumber) {
-
-        // Use {force: true} to type into a disabled input otherwise we explicitly need to click that field to make it enabled
-        cy.get(this.weblocators.shipmentForwarderInput).wait(5000).should('be.visible').type(forwarder);
-        cy.get(this.weblocators.forwarderReferenceNumberInput).type(this.randomAlphaNumericNumberGenerator(8));
+        const forwarderReferenceNumber = this.randomAlphaNumericNumberGenerator(8);
+        // Use {force: true} to type into a disabled input otherwise we explicitly need to click that field to make it enabled 
+        cy.get(this.weblocators.forwarderReferenceNumberInput).type(forwarderReferenceNumber);
+        cy.wrap(forwarderReferenceNumber).as('forwarderReferenceNumber');
         cy.get(this.weblocators.forwarderPRONumberInput).type(forwarderPRONumber);
-        
+        cy.get(this.weblocators.shipmentForwarderInput).wait(5000).scrollIntoView().should('be.visible').type(forwarder);
+
     }
 
     handleShipperContactOption(contactOption, searchName, locName, addressLine1, city, state, zip) {
@@ -209,6 +210,15 @@ export class createDirectDeliveryShipment {
         });
     }
 
+    storeAllData() {
+        cy.get('@cudaId').then(cudaId => {
+            cy.get('@forwarderReferenceNumber').then(forwardRefNumber => {
+                const data = { cudaId, forwardRefNumber };
+                cy.task('writeFile', { fileName: 'cypress/results/results.json', data });
+            });
+        });
+    }
+
     searchRecordByCudaID() {
         cy.get('@cudaId').then(cudaId => {
             cy.visit(Cypress.env('shipment_baseURL'), { failOnStatusCode: false }).wait(40000);
@@ -220,19 +230,19 @@ export class createDirectDeliveryShipment {
         cy.get(this.weblocators.ellipsisButton).eq(index).click();
     }
 
-    clickOnDeleteShipment(){
+    clickOnDeleteShipment() {
 
         cy.get(this.weblocators.deleteShipmentButton).click();
         cy.wait(10000);
     }
 
     verifyShipmentPopup() {
-        cy.wait(10000); 
+        cy.wait(10000);
         // Assert that the shipment notification popup exists
-        cy.get('.shipment-notification').should('exist');    
+        cy.get('.shipment-notification').should('exist');
         // Assert that the title of the shipment notification is correct
         cy.get('.shipment-notification h1').should('contain.text', "Here's your new shipment!");
-      }
+    }
 
 }
 
